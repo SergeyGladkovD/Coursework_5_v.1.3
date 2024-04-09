@@ -24,25 +24,27 @@ def new_work():
 Нажмите 4 чтоб получить список всех вакансий, у которых зарплата выше средней по всем вакансиям.
 Нажмите 5 чтоб получить список всех вакансий, в названии которых содержатся переданные в метод слова, например python.
 Другие команды закончат программу.\n""")
-		if user_input not in ['1', '2', '3', '4', '5']:
-			print('Программа завершена.')
-			break
-		elif user_input == '1':
-			print(DBManager.get_companies_and_vacancies_count(params, database_name))
-			continue
-		elif user_input == '2':
-			print(DBManager.get_all_vacancies(params, database_name))
-			continue
-		elif user_input == '3':
-			print(DBManager.get_avg_salary(params, database_name))
-			continue
-		elif user_input == '4':
-			print(DBManager.get_vacancies_with_higher_salary(params, database_name))
-			continue
-		elif user_input == '5':
-			word = input('Введите искомое слово.\n')
-			print(DBManager.get_vacancies_with_keyword(params, database_name, word))
-			continue
+		match user_input:
+
+			case '1':
+				print(DBManager.get_companies_and_vacancies_count(params, database_name))
+				continue
+			case '2':
+				print(DBManager.get_all_vacancies(params, database_name))
+				continue
+			case '3':
+				print(DBManager.get_avg_salary(params, database_name))
+				continue
+			case '4':
+				print(DBManager.get_vacancies_with_higher_salary(params, database_name))
+				continue
+			case '5':
+				word = input('Введите искомое слово.\n')
+				print(DBManager.get_vacancies_with_keyword(params, database_name, word))
+				continue
+			case _:
+				print('Программа завершена.')
+				break
 
 
 if __name__ == '__main__':
