@@ -1,7 +1,8 @@
 from configparser import ConfigParser
 
 
-def config(filename="database.ini", section="postgresql"):
+def config(filename="database.ini", section="postgresql") -> dict:
+    """ Функция читает ини файл и возвращает словарь ключ-значение. """
     parser = ConfigParser()
     parser.read(filename)
     db = {}

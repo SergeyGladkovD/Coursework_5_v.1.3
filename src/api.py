@@ -28,7 +28,7 @@ class HeadHunterAPI:
 		}
 		return requests.get("https://api.hh.ru/vacancies/", params=params).json()['items']
 
-	def get_vacancies(self):
+	def get_vacancies(self) -> list:
 		"""Получение списка работодателей"""
 		vacancies_list = []
 		for employer in self.employers_dict:

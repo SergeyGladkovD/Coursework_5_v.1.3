@@ -9,12 +9,13 @@ def new_work():
 	database_name = response.database_name  # Имя базы данных
 	employers_dict = response.employers_dict  # Словарь компаний
 	employers_all_vacancies = response.get_vacancies()  # Список вакансий
-	params = config()
-	DBManager.create_database(params, database_name)
-	DBManager.create_table_employers(params, database_name)
-	DBManager.create_table_vacancy(params, database_name)
-	DBManager.add_employer_in_bd(params, database_name, employers_dict)
-	DBManager.add_vacancy_in_bd(params, database_name, employers_all_vacancies)
+	params = config()  # Конфигом достаем параметры
+	DBManager.create_database(params, database_name)  # Статик методом создаем базу данных
+	conn = DBManager(database_name, params)  # Создаем экземпляр, класса открываем подключение
+	DBManager.create_table_employers(conn)  # Создаем таблицу компаний
+	DBManager.create_table_vacancy(conn)  # Создаем таблицу вакансий
+	DBManager.add_employer_in_bd(conn, employers_dict)  # Заполняем таблицу компаний
+	DBManager.add_vacancy_in_bd(conn, employers_all_vacancies)  # Заполняем таблицу вакансий
 
 	while True:
 		user_input = input("""Выберете команду:
@@ -27,23 +28,24 @@ def new_work():
 		match user_input:
 
 			case '1':
-				print(DBManager.get_companies_and_vacancies_count(params, database_name))
+				print(DBManager.get_companies_and_vacancies_count(conn))
 				continue
 			case '2':
-				print(DBManager.get_all_vacancies(params, database_name))
+				print(DBManager.get_all_vacancies(conn))
 				continue
 			case '3':
-				print(DBManager.get_avg_salary(params, database_name))
+				print(DBManager.get_avg_salary(conn))
 				continue
 			case '4':
-				print(DBManager.get_vacancies_with_higher_salary(params, database_name))
+				print(DBManager.get_vacancies_with_higher_salary(conn))
 				continue
 			case '5':
 				word = input('Введите искомое слово.\n')
-				print(DBManager.get_vacancies_with_keyword(params, database_name, word))
+				print(DBManager.get_vacancies_with_keyword(conn, word))
 				continue
 			case _:
 				print('Программа завершена.')
+				DBManager.quit(conn)
 				break
 
 
